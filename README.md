@@ -26,7 +26,7 @@ One static page, no build step, no backend. Fonts and the QR library are bundled
 | Alt + 1–4 | −1 point |
 | T | Start / pause the timer (screens that have one) |
 
-Scores and your current screen are kept in the browser, so a refresh doesn't lose them. Use **Reset scores** before the session.
+Scores and your current screen are kept in the browser, so a refresh doesn't lose them. **↺ Reset game** (bottom left) sets every score to 0 and returns to the first screen. Students can tap **↺ Start over** on their phone to clear their own answers.
 
 ## Edit before the day
 

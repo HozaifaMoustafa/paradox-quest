@@ -124,6 +124,9 @@ canvas#card{width:100%;border-radius:18px;display:block;box-shadow:0 10px 40px r
 .navbtn:hover{border-color:var(--teal)}
 .tool{font-size:.82rem;color:var(--mist);padding:8px 12px;border-radius:10px;border:1px solid var(--line)}
 .tool:hover{color:#fff;border-color:var(--teal)}
+.reset{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem;color:#fff;background:var(--navy2);border:1.5px solid var(--coral);border-radius:999px;padding:9px 16px}
+.reset:hover{background:var(--coral);color:var(--navy)}
+.p-top .reset{font-size:.78rem;padding:6px 12px}
 .timer{font-family:var(--mono);font-weight:700;font-size:1.3rem;background:var(--navy2);border:1.5px solid var(--bridge);border-radius:12px;padding:6px 14px;cursor:pointer;min-width:5.5ch;text-align:center}
 .timer.run{border-color:var(--gold);color:var(--gold)}
 .timer.done{background:var(--coral);border-color:var(--coral);color:#fff;animation:blink 1s infinite}
@@ -301,11 +304,20 @@ const Player = {
   go(step){ this.st.step = step; this.save(); this.render(); window.scrollTo(0,0); },
   frame(inner, pct, label){
     return `<div class="player">
-      <div class="p-top"><img src="assets/wordmark-white.png" alt="paradox"><span class="step">${label||''}</span></div>
+      <div class="p-top"><img src="assets/wordmark-white.png" alt="paradox"><span class="step">${label||''}</span><button class="reset" id="p-reset">↺ Start over</button></div>
       ${pct!=null?`<div class="progress"><i style="width:${pct}%"></i></div>`:''}
       ${inner}</div>`;
   },
+  reset(){
+    if (!confirm('Start over? Your quiz answers and quest card on this phone will be cleared.')) return;
+    try { localStorage.removeItem('px-player'); } catch(e) {}
+    this.st = null; this.start(); window.scrollTo(0,0);
+  },
   render(){
+    this._render();
+    const b = $('#p-reset'); if (b) b.onclick = () => this.reset();
+  },
+  _render(){
     const s = this.st, app = $('#app');
     if (s.step === 'intro') {
       app.innerHTML = this.frame(`
@@ -363,6 +375,7 @@ const Player = {
     return top.includes(this.st.answers[2]) ? this.st.answers[2] : top[0]; // tie → superpower answer wins
   },
   questForm(){
+    setTimeout(() => { const b = $('#p-reset'); if (b) b.onclick = () => this.reset(); });
     const s = this.st, q = s.quest; if (!s.cls) s.cls = 'A';
     const c = CLASSES[s.cls];
     $('#app').innerHTML = this.frame(`
@@ -502,7 +515,7 @@ const Host = {
       </div>
       <div class="stage" id="stage">${sl.html()}</div>
       <div class="h-bot">
-        <button class="tool" id="reset" title="Reset scores">Reset scores</button>
+        <button class="reset" id="reset" title="Scores back to 0 and return to the first screen">↺ Reset game</button>
         <button class="navbtn" id="prev" aria-label="Previous">←</button>
         <div class="dots">${SLIDES.map((_,j)=>`<i class="${j===this.i?'on':''}"></i>`).join('')}</div>
         <button class="navbtn" id="next" aria-label="Next">→</button>
@@ -511,7 +524,7 @@ const Host = {
     </div>`;
     document.querySelectorAll('.score').forEach(el => el.querySelectorAll('button').forEach(b => b.onclick = () => this.add(el.dataset.k, +b.dataset.d)));
     $('#prev').onclick = () => this.nav(-1); $('#next').onclick = () => this.nav(1);
-    $('#reset').onclick = () => { if (confirm('Reset all class scores to 0?')) { this.scores = {A:0,B:0,C:0,D:0}; store.set('scores', this.scores); this.render(); } };
+    $('#reset').onclick = () => { if (confirm('Reset the game? All class scores go back to 0 and you return to the first screen.')) { this.scores = {A:0,B:0,C:0,D:0}; store.set('scores', this.scores); this.i = 0; store.set('slide', 0); this.render(); } };
     if (sl.timer) setupTimer(sl.timer);
     if (sl.after) sl.after($('#stage'), this);
   },
