@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Choose Your Character · Paradox</title>
+<meta name="description" content="Paradox Academy: How to get into tech. The game.">
+<meta name="theme-color" content="#142950">
+<link rel="icon" href="assets/icon.png">
+<script src="assets/qrcode.js"></script>
+<style>
+@font-face{font-family:'Poppins';src:url(assets/fonts/Poppins-Medium.woff2) format('woff2');font-weight:400 500;font-display:swap}
+@font-face{font-family:'Poppins';src:url(assets/fonts/Poppins-Bold.woff2) format('woff2');font-weight:600 900;font-display:swap}
+@font-face{font-family:'Inter';src:url(assets/fonts/Inter-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Inter';src:url(assets/fonts/Inter-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Inter';src:url(assets/fonts/Inter-SemiBold.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Inter';src:url(assets/fonts/Inter-Bold.woff2) format('woff2');font-weight:700 800;font-display:swap}
+:root{
+  --navy:#142950; --navy2:#0F2038; --card:#1A3563; --line:#243C66; --bridge:#2E6E85; --deep:#1F4F66;
+  --teal:#54B4BC; --teal-soft:#9DD8DD; --gold:#E6B959; --violet:#6365E0; --green:#6DB56A; --coral:#D98554;
+  --ink:#101C2E; --slate:#46566B; --mist:#8A99AD; --cloud:#E7EDF4; --paper:#F6F9FC; --white:#fff;
+  --r:16px; --head:'Poppins',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif; --mono:Consolas,'SFMono-Regular',Menlo,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--body);background:var(--navy);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+h1,h2,h3{font-family:var(--head);line-height:1.12;letter-spacing:-.01em}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--teal)}
+.hide{display:none!important}
+.bg-deep{background:linear-gradient(135deg,#142950 0%,#142950 55%,#1F4F66 85%,#2E6E85 100%)}
+.circuit{position:fixed;inset:0;pointer-events:none;opacity:.5;z-index:0}
+
+/* ---------- landing ---------- */
+.landing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:32px 16px;text-align:center;position:relative;z-index:1}
+.landing .plate{background:#fff;border-radius:28px;padding:26px 30px 20px;box-shadow:0 0 50px rgba(84,180,188,.35)}
+.landing .plate img.icon{height:140px;display:block;margin:0 auto 10px}
+.landing .plate img.wm{height:44px}
+.landing h1{font-size:clamp(2rem,5vw,3.4rem)}
+.landing p{color:var(--teal-soft);font-size:1.1rem;max-width:34ch}
+.choices{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:16px 28px;font-weight:700;font-size:1.05rem;transition:transform .12s, box-shadow .18s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--teal);color:var(--navy)}
+.btn.ghost{border:1.5px solid var(--bridge);color:var(--white);background:var(--navy2)}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn:hover{box-shadow:0 0 30px rgba(84,180,188,.35)}
+
+/* ---------- chips ---------- */
+.chip{display:inline-flex;align-items:center;justify-content:center;border-radius:22%;font-family:var(--head);font-weight:800}
+.c-A{--c:var(--gold);--tc:var(--navy);--tint:#FBF3E1}
+.c-B{--c:var(--violet);--tc:#fff;--tint:#ECECFC}
+.c-C{--c:var(--teal);--tc:var(--navy);--tint:#E3F2F3}
+.c-D{--c:var(--green);--tc:var(--navy);--tint:#E8F4E7}
+.chip{background:var(--c);color:var(--tc)}
+
+/* ---------- PLAYER (phone) ---------- */
+.player{max-width:520px;margin:0 auto;min-height:100vh;padding:20px 16px 40px;position:relative;z-index:1;display:flex;flex-direction:column}
+.p-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.p-top img{height:22px}
+.p-top .step{font-size:.8rem;color:var(--mist);font-weight:600}
+.progress{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin-bottom:26px}
+.progress i{display:block;height:100%;background:var(--teal);transition:width .3s}
+.player h2{font-size:1.65rem;margin:8px 0 18px}
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:16px;font-size:1rem;line-height:1.35;transition:border-color .15s, transform .12s}
+.opt .chip{flex:0 0 40px;height:40px;font-size:1rem}
+.opt:hover{border-color:var(--c)}
+.opt.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,var(--card))}
+.result{background:#fff;color:var(--ink);border-radius:24px;overflow:hidden;animation:pop .45s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.result .head{background:var(--tint);padding:22px;display:flex;gap:16px;align-items:center}
+.result .head .chip{width:72px;height:72px;font-size:1.6rem}
+.result .head h3{font-size:1.8rem;color:var(--navy)}
+.result .head small{display:block;font-weight:700;letter-spacing:.14em;font-size:.72rem;text-transform:uppercase;color:var(--slate);margin-top:4px}
+.result .body{padding:20px 22px 24px;display:grid;gap:14px}
+.result .lab{font-size:.7rem;font-weight:700;letter-spacing:.16em;color:var(--bridge);text-transform:uppercase}
+.result p{font-size:1rem;line-height:1.45}
+.result .stand{background:var(--navy);color:#fff;border-radius:14px;padding:14px 16px;font-weight:600}
+.counts{display:flex;gap:8px;margin-top:4px}
+.counts span{flex:1;text-align:center;border-radius:10px;padding:6px 0;font-weight:700;font-size:.85rem;background:var(--c);color:var(--tc)}
+.p-actions{display:grid;gap:12px;margin-top:22px}
+.field{display:grid;gap:8px;margin-bottom:20px}
+.field label{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.field input[type=text],.field textarea{width:100%;border-radius:12px;border:1.5px solid var(--line);background:var(--navy2);color:#fff;padding:14px;font:inherit;font-size:1rem}
+.field textarea{min-height:76px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--teal)}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:9px 14px;font-size:.9rem;font-weight:600}
+.tag.on{background:var(--teal);color:var(--navy);border-color:var(--teal)}
+.classpick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.classpick button{border-radius:14px;padding:10px 4px;background:var(--card);border:1.5px solid var(--line);display:grid;justify-items:center;gap:6px;font-size:.78rem;font-weight:700}
+.classpick button .chip{width:34px;height:34px;font-size:.8rem}
+.classpick button.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 22%,var(--card))}
+.range{display:flex;align-items:center;gap:14px}
+.range input{flex:1;accent-color:var(--teal)}
+.range b{font-family:var(--head);font-size:1.4rem;min-width:3ch}
+.hint{font-size:.85rem;color:var(--mist)}
+.suggest{font-size:.82rem;color:var(--teal-soft);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+canvas#card{width:100%;border-radius:18px;display:block;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+
+/* ---------- HOST (projector) ---------- */
+.host{height:100vh;display:grid;grid-template-rows:auto 1fr auto;position:relative;z-index:1}
+.h-top{display:flex;align-items:center;gap:22px;padding:18px 40px}
+.h-top img{height:30px}
+.h-top .lvl{color:var(--teal-soft);font-weight:600;font-size:1rem;flex:1}
+.scores{display:flex;gap:10px}
+.score{display:flex;align-items:center;gap:10px;background:var(--navy2);border:1.5px solid var(--c);border-radius:14px;padding:6px 12px 6px 6px;user-select:none}
+.score .chip{width:36px;height:36px;font-size:.85rem}
+.score b{font-family:var(--head);font-size:1.35rem;min-width:2ch;text-align:right}
+.score .pm{display:grid;gap:2px}
+.score .pm button{width:22px;height:18px;border-radius:5px;background:var(--line);font-weight:800;font-size:.8rem;line-height:1}
+.score .pm button:hover{background:var(--c);color:var(--tc)}
+.score.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.12);box-shadow:0 0 30px var(--c)}}
+.stage{padding:10px 56px 0;overflow:hidden;display:flex;flex-direction:column}
+.stage h1{font-size:clamp(2rem,3.6vw,3.3rem);margin:8px 0 6px}
+.stage .sub{color:var(--teal-soft);font-size:clamp(1rem,1.4vw,1.25rem);margin-bottom:24px}
+.h-bot{display:flex;align-items:center;gap:14px;padding:14px 40px 20px}
+.dots{flex:1;display:flex;gap:6px;justify-content:center}
+.dots i{width:8px;height:8px;border-radius:8px;background:var(--line);transition:all .2s}
+.dots i.on{width:26px;background:var(--teal)}
+.navbtn{width:46px;height:46px;border-radius:50%;background:var(--card);border:1.5px solid var(--line);font-size:1.3rem}
+.navbtn:hover{border-color:var(--teal)}
+.tool{font-size:.82rem;color:var(--mist);padding:8px 12px;border-radius:10px;border:1px solid var(--line)}
+.tool:hover{color:#fff;border-color:var(--teal)}
+.timer{font-family:var(--mono);font-weight:700;font-size:1.3rem;background:var(--navy2);border:1.5px solid var(--bridge);border-radius:12px;padding:6px 14px;cursor:pointer;min-width:5.5ch;text-align:center}
+.timer.run{border-color:var(--gold);color:var(--gold)}
+.timer.done{background:var(--coral);border-color:var(--coral);color:#fff;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.6}}
+
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:22px}
+.card.light{background:#fff;color:var(--ink);border-color:var(--cloud)}
+.card h3{font-size:1.35rem;margin-bottom:8px}
+.card p{line-height:1.45;color:var(--cloud)}
+.card.light p{color:var(--slate)}
+.flip{perspective:900px;cursor:pointer;min-height:150px}
+.flip .in{position:relative;width:100%;height:100%;min-height:inherit;transition:transform .55s cubic-bezier(.3,.8,.3,1);transform-style:preserve-3d}
+.flip.open .in{transform:rotateY(180deg)}
+.flip .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:center}
+.flip .front{background:#fff;color:var(--ink)}
+.flip .back{transform:rotateY(180deg)}
+.flip .q{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:var(--cloud);color:var(--slate);display:grid;place-items:center;font-weight:800}
+.badge{display:inline-block;border-radius:999px;padding:5px 12px;font-size:.72rem;font-weight:800;letter-spacing:.14em}
+.click-hint{font-size:.85rem;color:var(--mist);margin-top:14px}
+
+/* host specifics */
+.levels{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;align-items:end;margin-top:6px}
+.lv{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px 14px;display:grid;gap:8px}
+.lv .n{width:42px;height:42px;border-radius:50%;background:var(--teal);color:var(--navy);display:grid;place-items:center;font-family:var(--head);font-weight:800}
+.lv b{font-family:var(--head);font-size:1.05rem}
+.lv small{color:var(--mist)}
+.vote{display:flex;gap:12px;margin-top:22px}
+.vote div{flex:1;border-radius:14px;padding:16px;text-align:center;font-family:var(--head);font-weight:800;font-size:1.6rem;background:var(--c);color:var(--tc)}
+.join{display:grid;grid-template-columns:auto 1fr;gap:42px;align-items:center;margin-top:10px}
+.qr{background:#fff;border-radius:22px;padding:18px;width:min(38vh,340px)}
+.qr svg,.qr img{width:100%;height:auto;display:block}
+.url{font-family:var(--mono);font-size:1.2rem;color:var(--teal-soft);word-break:break-all;margin-top:10px}
+.classcard{border-radius:18px;overflow:hidden;background:#fff;color:var(--ink);border:2px solid var(--c)}
+.classcard .top{background:var(--tint);padding:18px;display:flex;gap:14px;align-items:center}
+.classcard .top .chip{width:58px;height:58px;font-size:1.25rem}
+.classcard .top h3{font-size:1.4rem;color:var(--navy)}
+.classcard .top small{font-weight:700;letter-spacing:.12em;font-size:.7rem;color:var(--slate);text-transform:uppercase}
+.classcard .bd{padding:16px 18px 20px;display:grid;gap:10px;font-size:.98rem;line-height:1.4}
+.classcard .lab{font-size:.68rem;font-weight:800;letter-spacing:.16em;color:var(--bridge);text-transform:uppercase}
+.code{background:#0B1626;border:1.5px solid var(--bridge);border-radius:18px;padding:26px 30px;font-family:var(--mono);font-size:clamp(1.1rem,1.9vw,1.6rem);line-height:2.1}
+.code .ln{display:flex;gap:26px;border-radius:8px;padding:0 10px;cursor:pointer}
+.code .ln span:first-child{color:#56688A;min-width:1.2ch;text-align:right}
+.code .ln.bug{background:rgba(217,133,84,.25);outline:2px solid var(--coral)}
+.code .fix{color:var(--green);display:block;font-size:.8em;padding-left:3.2ch}
+.ladder{display:flex;align-items:flex-end;gap:12px;height:100%}
+.rung{flex:1;border-radius:14px;padding:16px;color:var(--navy);display:flex;flex-direction:column;gap:4px;transition:transform .4s, opacity .4s;cursor:pointer}
+.rung.off{opacity:.22;transform:translateY(16px)}
+.rung .xp{font-weight:800;font-size:.85rem;letter-spacing:.06em}
+.rung b{font-family:var(--head);font-size:1.3rem}
+.cand{background:#fff;color:var(--ink);border-radius:18px;padding:22px;display:grid;gap:14px;align-content:start;border:3px solid transparent;transition:all .3s}
+.cand .av{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;font-family:var(--head);font-weight:800;font-size:1.8rem}
+.cand ul{padding-left:18px;display:grid;gap:6px;color:var(--slate)}
+.cand.win{border-color:var(--green);box-shadow:0 0 40px rgba(109,181,106,.6);transform:translateY(-6px)}
+.cand.lose{opacity:.45}
+.guild{display:flex;align-items:center;gap:16px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 18px;cursor:pointer}
+.guild .n{width:38px;height:38px;border-radius:50%;background:var(--teal);color:var(--navy);display:grid;place-items:center;font-weight:800;flex:0 0 38px}
+.guild b{font-family:var(--head);font-size:1.15rem;flex:0 0 32%}
+.guild small{color:var(--cloud);flex:1}
+.guild .ans{display:flex;gap:6px}
+.guild .ans .chip{width:36px;height:36px;font-size:.8rem;animation:pop .35s}
+.myth .back.mf-myth{background:var(--gold);color:var(--navy)}
+.myth .back.mf-fact{background:var(--green);color:var(--navy)}
+.myth .front h3{color:var(--navy);font-size:1.3rem;padding-right:36px}
+.myth .back b{font-family:var(--head);font-size:1.9rem;letter-spacing:.04em}
+.myth .back p{color:var(--navy);margin-top:6px}
+.final .classcard{text-align:center}
+.final .pts{font-family:var(--head);font-weight:800;font-size:3.4rem;color:var(--navy)}
+.final .winner{transform:scale(1.06);box-shadow:0 0 60px var(--c)}
+.crown{font-size:.75rem;font-weight:800;letter-spacing:.2em;color:var(--bridge)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+html.is-host{font-size:clamp(15px,1.32vw,28px)}
+html.is-host .flip{min-height:9.5rem}
+html.is-host .card,html.is-host .flip .face{padding:1.3rem 1.4rem}
+html.is-host .card p,html.is-host .flip p{font-size:1.02rem}
+html.is-host .guild{padding:1rem 1.2rem}
+html.is-host .qr{width:min(42vh,420px)}
+@media (max-width:900px){.host .stage{padding:10px 18px}.levels{grid-template-columns:repeat(4,1fr)}.g3,.g4{grid-template-columns:repeat(2,1fr)}.h-top{padding:12px 16px;flex-wrap:wrap}.join{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="bg-deep">
+<svg class="circuit" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#54B4BC" stroke-opacity=".18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M1100 80h120l60 60v140h160"/><circle cx="1100" cy="80" r="6"/><circle cx="1440" cy="280" r="6"/>
+<path d="M1200 520h-90l-50-50V360"/><circle cx="1200" cy="520" r="6"/><circle cx="1060" cy="360" r="6"/>
+<path d="M1320 900V700l80-80h200"/><circle cx="1600" cy="620" r="6"/>
+<path d="M60 760h160l70 70h140"/><circle cx="60" cy="760" r="6"/><circle cx="430" cy="830" r="6"/>
+<path d="M1480 420v160l-60 60h-120"/><circle cx="1480" cy="420" r="6"/><circle cx="1300" cy="640" r="6"/></g></svg>
+<div id="app"></div>
+<canvas class="confetti" id="confetti"></canvas>
+
+<script>
+/* =====================================================================
+   EDIT ME — everything you may want to change is in CONFIG
+   ===================================================================== */
+const CONFIG = {
+  presenter: 'Eng. Hozaifa Moustafa',
+  role: 'Co-founder · Paradox Academy',
+  prize: 'Paradox stickers for the whole class',      // shown on rules + final screen
+  playerUrl: '',          // leave empty to use this site's own address + #/play
+  story: [               // "My quest so far" — replace the [ ] lines
+    ['Level 1', '[First thing I built]'],
+    ['The turning point', '[The moment it clicked]'],
+    ['A hard lesson', '[A mistake that taught me]'],
+    ['Today', 'Building Paradox Academy'],
+  ],
+  hireLooks: [           // "What I look for when I hire"
+    ['Proof you can build', 'One real project beats ten certificates.'],
+    ['You can explain your bugs', 'Tell me about one you fixed and how.'],
+    ['You learn fast', 'And you ask good questions when stuck.'],
+    ['You show up', 'Reliable, clear, good with a team.'],
+  ],
+};
+
+/* ---------- game data ---------- */
+const CLASSES = {
+  A:{name:'Builder', track:'Software', g:'</>', day:'Builds apps, websites and games people use every day.', quest:'A to-do app or a website for a local shop', gear:'Python · JavaScript · Git', projects:['A to-do app','A website for a local shop','A simple game for friends']},
+  B:{name:'Mind-maker', track:'AI & data', g:'{ }', day:'Teaches computers to spot patterns and make predictions.', quest:'Predict exam scores from study hours', gear:'Python · pandas · Kaggle', projects:['Predict exam scores from study hours','A chatbot for school FAQs','Analyse your class’s screen time']},
+  C:{name:'Engineer', track:'Robotics', g:'[ ]', day:'Brings hardware to life with sensors, motors and code.', quest:'A line-following robot with Arduino', gear:'Arduino · C++ · CAD', projects:['A line-following robot','A smart plant-watering system','A 3D-printed robot arm']},
+  D:{name:'Guardian', track:'Cyber security', g:'>_', day:'Finds weak spots before attackers do, and fixes them.', quest:'Solve beginner CTF challenges', gear:'Linux · networking · Python', projects:['Solve 10 beginner CTF challenges','A password-strength checker','Secure your family’s Wi-Fi setup']},
+};
+const KEYS = ['A','B','C','D'];
+const QUIZ = [
+  ['On a free Saturday, you’d rather…', ['Make a website or game for friends','Figure out why TikTok shows you what it shows','Build a robot or a drone','Find how an app could be hacked, then fix it']],
+  ['Your favourite kind of win:', ['People using something you made','A prediction that turned out right','A machine moving exactly as planned','Catching a problem before anyone else']],
+  ['Pick a superpower:', ['Turn any idea into an app','Teach a computer to think','Bring metal and wires to life','Be invisible to hackers']],
+];
+const STATS = ['Python','Git','Problem solving','English & docs','AI as a tutor','Math basics'];
+const GUILDS = [['ECPC','Egyptian Collegiate Programming Contest',['A','B']],['WRO','World Robot Olympiad',['C']],['CyberTalents CTFs','Capture-the-flag security challenges',['D']],['Kaggle','Data and machine-learning competitions',['B']],['NASA Space Apps','A global 48-hour hackathon',['A','B','C','D']]];
+
+/* ---------- helpers ---------- */
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('px-'+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('px-'+k, JSON.stringify(v)); }catch(e){} },
+};
+const chip = (k, size=40, fs) => `<span class="chip c-${k}" style="width:${size}px;height:${size}px;font-size:${fs||size*0.36}px">${esc(CLASSES[k].g)}</span>`;
+const playerUrl = () => CONFIG.playerUrl || (location.origin + location.pathname + '#/play');
+
+/* ---------- router ---------- */
+function route(){
+  const h = location.hash.replace('#/','');
+  stopTimer();
+  document.documentElement.classList.toggle('is-host', h.startsWith('host'));
+  if (h.startsWith('play')) return Player.start();
+  if (h.startsWith('host')) return Host.start();
+  return landing();
+}
+window.addEventListener('hashchange', route);
+
+function landing(){
+  $('#app').innerHTML = `
+  <div class="landing">
+    <div class="plate"><img class="icon" src="assets/icon.png" alt="Paradox robot mascot"><img class="wm" src="assets/wordmark.png" alt="paradox"></div>
+    <div><div class="eyebrow">Session 3 · How to get into tech</div><h1 style="margin-top:10px">Choose your character</h1></div>
+    <p>Pick your class, level up, and leave with a real 6-month quest.</p>
+    <div class="choices">
+      <a class="btn primary" href="#/play">I’m playing →</a>
+      <a class="btn ghost" href="#/host">Host screen</a>
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   PLAYER — phone flow: quiz → class → quest card
+   ===================================================================== */
+const Player = {
+  st: null,
+  start(){
+    this.st = store.get('player', { step:'intro', answers:[], cls:null, quest:{ name:'', stats:[], project:'', who:'', guild:'', hours:4, first:'' } });
+    this.render();
+  },
+  save(){ store.set('player', this.st); },
+  go(step){ this.st.step = step; this.save(); this.render(); window.scrollTo(0,0); },
+  frame(inner, pct, label){
+    return `<div class="player">
+      <div class="p-top"><img src="assets/wordmark-white.png" alt="paradox"><span class="step">${label||''}</span></div>
+      ${pct!=null?`<div class="progress"><i style="width:${pct}%"></i></div>`:''}
+      ${inner}</div>`;
+  },
+  render(){
+    const s = this.st, app = $('#app');
+    if (s.step === 'intro') {
+      app.innerHTML = this.frame(`
+        <div class="eyebrow">Level 1</div>
+        <h2>Which one sounds like you?</h2>
+        <p style="color:var(--teal-soft);line-height:1.5;margin-bottom:24px">Three quick questions. There are no wrong answers. Pick what’s true for you, not what sounds cool.</p>
+        <button class="btn primary" id="go">Start the quiz</button>
+        ${s.cls?`<button class="btn ghost" style="margin-top:12px" id="skip">See my class: ${esc(CLASSES[s.cls].name)}</button>`:''}
+      `, 0, 'Choose your character');
+      $('#go').onclick = () => { s.answers = []; this.go('q0'); };
+      if ($('#skip')) $('#skip').onclick = () => this.go('result');
+      return;
+    }
+    if (/^q\d$/.test(s.step)) {
+      const i = +s.step.slice(1), [q, opts] = QUIZ[i];
+      app.innerHTML = this.frame(`
+        <div class="eyebrow">Question ${i+1} of ${QUIZ.length}</div>
+        <h2>${esc(q)}</h2>
+        <div class="opts">${opts.map((o,j)=>`<button class="opt c-${KEYS[j]}" data-k="${KEYS[j]}">${chip(KEYS[j],40)}<span>${esc(o)}</span></button>`).join('')}</div>
+      `, (i/QUIZ.length)*100, 'Choose your character');
+      app.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+        b.classList.add('sel'); s.answers[i] = b.dataset.k;
+        setTimeout(() => { if (i+1 < QUIZ.length) this.go('q'+(i+1)); else { s.cls = this.tally(); this.go('result'); } }, 260);
+      });
+      return;
+    }
+    if (s.step === 'result') {
+      const k = s.cls, c = CLASSES[k], n = KEYS.map(x => s.answers.filter(a=>a===x).length);
+      app.innerHTML = this.frame(`
+        <div class="eyebrow" style="margin-bottom:12px">Your class</div>
+        <div class="result c-${k}">
+          <div class="head">${chip(k,72)}<div><h3>${esc(c.name)}</h3><small>${esc(c.track)}</small></div></div>
+          <div class="body">
+            <div><div class="lab">What you do</div><p>${esc(c.day)}</p></div>
+            <div><div class="lab">Starter quest</div><p><b>${esc(c.quest)}</b></p></div>
+            <div><div class="lab">Gear</div><p>${esc(c.gear)}</p></div>
+            ${s.answers.length?`<div class="counts">${KEYS.map((x,j)=>`<span class="c-${x}">${esc(CLASSES[x].g)} &nbsp;×${n[j]}</span>`).join('')}</div>`:''}
+            <div class="stand">Go stand with the ${esc(c.name)}s. That’s your team for the rest of the game.</div>
+          </div>
+        </div>
+        <div class="p-actions">
+          <button class="btn primary" id="quest">Build my 6-month quest →</button>
+          <button class="btn ghost" id="redo">Retake the quiz</button>
+        </div>`, 100, 'Choose your character');
+      $('#quest').onclick = () => this.go('quest');
+      $('#redo').onclick = () => { s.answers=[]; this.go('q0'); };
+      return;
+    }
+    if (s.step === 'quest') return this.questForm();
+    if (s.step === 'card') return this.cardView();
+  },
+  tally(){
+    const n = {}; this.st.answers.forEach(a => n[a] = (n[a]||0)+1);
+    const max = Math.max(...Object.values(n)); const top = KEYS.filter(k => n[k]===max);
+    return top.includes(this.st.answers[2]) ? this.st.answers[2] : top[0]; // tie → superpower answer wins
+  },
+  questForm(){
+    const s = this.st, q = s.quest; if (!s.cls) s.cls = 'A';
+    const c = CLASSES[s.cls];
+    $('#app').innerHTML = this.frame(`
+      <div class="eyebrow">Level 6 · Quest log</div>
+      <h2>Write your 6-month quest</h2>
+      <div class="field"><label>Your name</label><input type="text" id="f-name" maxlength="40" value="${esc(q.name)}" placeholder="First name"></div>
+      <div class="field"><label>My class</label><div class="classpick">${KEYS.map(k=>`<button class="c-${k} ${k===s.cls?'on':''}" data-k="${k}">${chip(k,34)}${esc(CLASSES[k].name)}</button>`).join('')}</div></div>
+      <div class="field"><label>Months 1–2 · Two base stats</label><div class="tags" id="f-stats">${STATS.map(x=>`<button class="tag ${q.stats.includes(x)?'on':''}">${esc(x)}</button>`).join('')}</div><span class="hint">Pick two.</span></div>
+      <div class="field"><label>Months 3–4 · One project I’ll build</label><textarea id="f-project" maxlength="90" placeholder="One project, not five">${esc(q.project)}</textarea>
+        <div class="tags">${c.projects.map(p=>`<span class="suggest" data-p="${esc(p)}">${esc(p)}</span>`).join('')}</div></div>
+      <div class="field"><label>Months 5–6 · Who will use it</label><input type="text" id="f-who" maxlength="60" value="${esc(q.who)}" placeholder="My family, my school club…"></div>
+      <div class="field"><label>A guild I’ll join</label><div class="tags" id="f-guild">${GUILDS.map(g=>`<button class="tag ${q.guild===g[0]?'on':''}">${esc(g[0])}</button>`).join('')}<button class="tag ${q.guild==='Paradox team'?'on':''}">Paradox team</button></div></div>
+      <div class="field"><label>Hours a week</label><div class="range"><input type="range" min="1" max="15" id="f-hours" value="${q.hours}"><b id="f-hv">${q.hours}</b></div></div>
+      <div class="field"><label>My first step this week</label><input type="text" id="f-first" maxlength="70" value="${esc(q.first)}" placeholder="Install Python and print hello"></div>
+      <button class="btn primary" id="make" style="width:100%">Make my quest card →</button>
+    `, null, esc(c.name));
+    const sync = () => { q.name=$('#f-name').value.trim(); q.project=$('#f-project').value.trim(); q.who=$('#f-who').value.trim(); q.first=$('#f-first').value.trim(); q.hours=+$('#f-hours').value; this.save(); };
+    document.querySelectorAll('.classpick button').forEach(b => b.onclick = () => { sync(); s.cls = b.dataset.k; this.save(); this.questForm(); });
+    document.querySelectorAll('#f-stats .tag').forEach(b => b.onclick = () => {
+      const v = b.textContent; if (q.stats.includes(v)) q.stats = q.stats.filter(x=>x!==v); else { q.stats.push(v); if (q.stats.length>2) q.stats.shift(); }
+      document.querySelectorAll('#f-stats .tag').forEach(t => t.classList.toggle('on', q.stats.includes(t.textContent))); this.save(); });
+    document.querySelectorAll('#f-guild .tag').forEach(b => b.onclick = () => { q.guild = b.textContent; document.querySelectorAll('#f-guild .tag').forEach(t=>t.classList.toggle('on', t===b)); this.save(); });
+    document.querySelectorAll('.suggest').forEach(x => x.onclick = () => { $('#f-project').value = x.dataset.p; sync(); });
+    $('#f-hours').oninput = e => { $('#f-hv').textContent = e.target.value; };
+    $('#app').querySelectorAll('input,textarea').forEach(el => el.addEventListener('change', sync));
+    $('#make').onclick = () => { sync(); this.go('card'); };
+  },
+  cardView(){
+    const s = this.st;
+    $('#app').innerHTML = this.frame(`
+      <div class="eyebrow" style="margin-bottom:14px">Your quest card</div>
+      <canvas id="card" width="1080" height="1350"></canvas>
+      <div class="p-actions">
+        <button class="btn primary" id="dl">Save image</button>
+        <button class="btn ghost" id="share">Share</button>
+        <button class="btn ghost" id="edit">Edit quest</button>
+      </div>
+      <p class="hint" style="margin-top:14px;text-align:center">Set it as your lock screen. Check it every Friday.</p>
+    `, null, esc(CLASSES[s.cls].name));
+    drawCard($('#card'), s).then(() => {
+      $('#dl').onclick = () => { const a = document.createElement('a'); a.download = 'my-paradox-quest.png'; a.href = $('#card').toDataURL('image/png'); a.click(); };
+      $('#share').onclick = async () => {
+        try { const blob = await new Promise(r => $('#card').toBlob(r, 'image/png'));
+          const file = new File([blob], 'my-paradox-quest.png', { type:'image/png' });
+          if (navigator.canShare && navigator.canShare({ files:[file] })) await navigator.share({ files:[file], title:'My Paradox quest' });
+          else $('#dl').click();
+        } catch(e) {}
+      };
+    });
+    $('#edit').onclick = () => this.go('quest');
+  },
+};
+
+/* ---------- quest card renderer (canvas, no libraries) ---------- */
+function loadImg(src){ return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); }
+function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x,y,w,h,r) : ctx.rect(x,y,w,h); }
+function wrap(ctx, text, x, y, maxW, lh, maxLines=3){
+  const words = String(text||'').split(/\s+/); let line = '', lines = [];
+  words.forEach(w => { const t = line ? line+' '+w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
+  if (line) lines.push(line); lines = lines.slice(0, maxLines);
+  lines.forEach((l,i) => ctx.fillText(l, x, y + i*lh)); return lines.length;
+}
+async function drawCard(cv, s){
+  try { await Promise.all(['800 76px Poppins','700 30px Poppins','600 30px Inter','700 22px Inter'].map(f => document.fonts.load(f))); } catch(e) {}
+  const ctx = cv.getContext('2d'), W = 1080, H = 1350, k = s.cls, c = CLASSES[k], q = s.quest;
+  const col = { A:'#E6B959', B:'#6365E0', C:'#54B4BC', D:'#6DB56A' }[k], tcol = k==='B' ? '#fff' : '#142950';
+  const g = ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,'#142950'); g.addColorStop(.6,'#142950'); g.addColorStop(1,'#2E6E85');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle = 'rgba(84,180,188,.22)'; ctx.lineWidth = 3;
+  [[760,80,880,80,940,140,940,300],[1080,980,920,980,860,1040,860,1350]].forEach(p => { ctx.beginPath(); ctx.moveTo(p[0],p[1]); for (let i=2;i<p.length;i+=2) ctx.lineTo(p[i],p[i+1]); ctx.stroke(); });
+  const wm = await loadImg('assets/wordmark-white.png'), icon = await loadImg('assets/icon.png');
+  if (wm) ctx.drawImage(wm, 72, 70, 200, 200*wm.height/wm.width);
+  ctx.fillStyle = '#54B4BC'; ctx.font = '700 26px Inter'; ctx.fillText('MY 6-MONTH QUEST', 72, 190);
+  ctx.fillStyle = '#fff'; ctx.font = '800 76px Poppins'; ctx.fillText(q.name || 'Player one', 72, 270);
+  // class banner
+  rr(ctx,72,320,936,170,28); ctx.fillStyle = '#fff'; ctx.fill();
+  rr(ctx,104,350,110,110,24); ctx.fillStyle = col; ctx.fill();
+  ctx.fillStyle = tcol; ctx.font = '800 40px Poppins'; ctx.textAlign = 'center'; ctx.fillText(c.g, 159, 420); ctx.textAlign = 'left';
+  ctx.fillStyle = '#142950'; ctx.font = '800 54px Poppins'; ctx.fillText(c.name, 244, 410);
+  ctx.fillStyle = '#46566B'; ctx.font = '700 24px Inter'; ctx.fillText(c.track.toUpperCase(), 246, 452);
+  if (icon) ctx.drawImage(icon, 880, 340, 110, 110*icon.height/icon.width);
+  // months
+  const rows = [['MONTHS 1–2','Base stats', (q.stats.join(' + ') || 'Two skills'), '#E6B959'],
+                ['MONTHS 3–4','First quest', q.project || c.quest, '#6365E0'],
+                ['MONTHS 5–6','Ship it + join a guild', [q.who && 'Used by '+q.who, q.guild && 'Guild: '+q.guild].filter(Boolean).join(' · ') || 'Real users + a guild', '#6DB56A']];
+  rows.forEach(([m,t,v,cc],i) => {
+    const y = 540 + i*190;
+    rr(ctx,72,y,936,168,24); ctx.fillStyle = '#1A3563'; ctx.fill(); ctx.strokeStyle = '#2E6E85'; ctx.lineWidth = 2; ctx.stroke();
+    rr(ctx,96,y+26,10,116,5); ctx.fillStyle = cc; ctx.fill();
+    ctx.fillStyle = '#8A99AD'; ctx.font = '700 22px Inter'; ctx.fillText(m, 132, y+52);
+    ctx.fillStyle = '#9DD8DD'; ctx.font = '700 30px Poppins'; ctx.fillText(t, 132, y+92);
+    ctx.fillStyle = '#fff'; ctx.font = '600 30px Inter'; wrap(ctx, v, 132, y+134, 840, 36, 1);
+  });
+  // footer
+  const fy = 1120;
+  ctx.fillStyle = '#54B4BC'; ctx.font = '700 22px Inter'; ctx.fillText('HOURS A WEEK', 72, fy); ctx.fillText('FIRST STEP THIS WEEK', 360, fy);
+  ctx.fillStyle = '#fff'; ctx.font = '800 64px Poppins'; ctx.fillText(String(q.hours), 72, fy+72);
+  ctx.font = '600 30px Inter'; wrap(ctx, q.first || 'Pick one small thing and do it before Friday.', 360, fy+50, 650, 38, 2);
+  ctx.fillStyle = '#9DD8DD'; ctx.font = '600 24px Inter'; ctx.fillText('One project, not five. Start small. Ship it.', 72, 1290);
+}
+
+/* =====================================================================
+   HOST — projector flow with scoreboard, reveals and timers
+   ===================================================================== */
+let timer = null;
+function stopTimer(){ if (timer) { clearInterval(timer.id); timer = null; } }
+const Host = {
+  i: 0,
+  scores: null,
+  start(){
+    this.scores = store.get('scores', { A:0, B:0, C:0, D:0 });
+    this.i = Math.min(store.get('slide', 0), SLIDES.length-1);
+    document.onkeydown = e => this.key(e);
+    this.render();
+  },
+  key(e){
+    if (!location.hash.startsWith('#/host') || e.target.matches('input,textarea')) return;
+    if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); this.nav(1); }
+    if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); this.nav(-1); }
+    const n = '1234'.indexOf(e.key); if (n >= 0) this.add(KEYS[n], e.altKey ? -1 : 1);
+    if (e.key === 't' || e.key === 'T') $('#timer') && $('#timer').click();
+  },
+  nav(d){ const j = this.i + d; if (j < 0 || j >= SLIDES.length) return; this.i = j; store.set('slide', j); this.render(); },
+  add(k, d){ this.scores[k] = Math.max(0, this.scores[k] + d); store.set('scores', this.scores); const el = $(`.score[data-k="${k}"]`);
+    if (el) { el.querySelector('b').textContent = this.scores[k]; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+    if (SLIDES[this.i].id === 'final') this.render(); },
+  render(){
+    stopTimer();
+    const sl = SLIDES[this.i];
+    $('#app').innerHTML = `
+    <div class="host">
+      <div class="h-top">
+        <img src="assets/wordmark-white.png" alt="paradox">
+        <div class="lvl">${esc(sl.lvl)}</div>
+        ${sl.timer ? `<div class="timer" id="timer" title="Click or press T">${fmt(sl.timer)}</div>` : ''}
+        <div class="scores">${KEYS.map(k => `<div class="score c-${k}" data-k="${k}">${chip(k,36)}<b>${this.scores[k]}</b><div class="pm"><button data-d="1" aria-label="add point">+</button><button data-d="-1" aria-label="remove point">−</button></div></div>`).join('')}</div>
+      </div>
+      <div class="stage" id="stage">${sl.html()}</div>
+      <div class="h-bot">
+        <button class="tool" id="reset" title="Reset scores">Reset scores</button>
+        <button class="navbtn" id="prev" aria-label="Previous">←</button>
+        <div class="dots">${SLIDES.map((_,j)=>`<i class="${j===this.i?'on':''}"></i>`).join('')}</div>
+        <button class="navbtn" id="next" aria-label="Next">→</button>
+        <a class="tool" href="#/">Exit</a>
+      </div>
+    </div>`;
+    document.querySelectorAll('.score').forEach(el => el.querySelectorAll('button').forEach(b => b.onclick = () => this.add(el.dataset.k, +b.dataset.d)));
+    $('#prev').onclick = () => this.nav(-1); $('#next').onclick = () => this.nav(1);
+    $('#reset').onclick = () => { if (confirm('Reset all class scores to 0?')) { this.scores = {A:0,B:0,C:0,D:0}; store.set('scores', this.scores); this.render(); } };
+    if (sl.timer) setupTimer(sl.timer);
+    if (sl.after) sl.after($('#stage'), this);
+  },
+};
+const fmt = s => `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+function setupTimer(total){
+  const el = $('#timer'); let left = total;
+  el.onclick = () => {
+    if (timer) { stopTimer(); el.classList.remove('run'); return; }
+    if (left <= 0) { left = total; el.classList.remove('done'); el.textContent = fmt(left); return; }
+    el.classList.add('run');
+    timer = { id: setInterval(() => { left--; el.textContent = fmt(Math.max(0,left)); if (left <= 0) { stopTimer(); el.classList.remove('run'); el.classList.add('done'); } }, 1000) };
+  };
+}
+const flipAll = (root) => root.querySelectorAll('.flip').forEach(f => f.onclick = () => f.classList.toggle('open'));
+
+/* ---------- host slides ---------- */
+const SLIDES = [
+  { id:'join', lvl:'Session 3 · How to get into tech', html:() => `
+    <div class="eyebrow">Get your phone out</div>
+    <h1>Choose your character</h1>
+    <div class="sub">Scan to play. Presented by ${esc(CONFIG.presenter)} · ${esc(CONFIG.role)}</div>
+    <div class="join"><div class="qr" id="qr"></div>
+      <div><div class="eyebrow">Or open</div><div class="url">${esc(playerUrl())}</div>
+      <div class="grid g2" style="margin-top:34px">${KEYS.map(k=>`<div class="classcard c-${k}"><div class="top">${chip(k,58)}<div><h3>${esc(CLASSES[k].name)}</h3><small>${esc(CLASSES[k].track)}</small></div></div></div>`).join('')}</div></div></div>`,
+    after(){ try { const q = qrcode(0,'M'); q.addData(playerUrl()); q.make(); $('#qr').innerHTML = q.createSvgTag({ cellSize:8, margin:0, scalable:true }); } catch(e){ $('#qr').innerHTML = '<p style="color:#142950">QR needs internet</p>'; } } },
+
+  { id:'rules', lvl:'How the game works', html:() => `
+    <div class="eyebrow">How the game works</div><h1>This session is a game</h1>
+    <div class="sub">Every level has a mini-game. Right answers score points for your class. Top class wins: <b>${esc(CONFIG.prize)}</b>.</div>
+    <div class="levels">${['Tech or not tech?','Choose your class','Base stats','Earn XP','Join a guild','Boss level','Quest log'].map((t,i)=>`<div class="lv"><div class="n">${i}</div><b>${t}</b><small>Level ${i}</small></div>`).join('')}</div>
+    <div class="vote c-A">${KEYS.map(k=>`<div class="c-${k}">${k}</div>`).join('')}</div>
+    <div class="click-hint">Host keys: → next · 1–4 add a point · Alt+1–4 remove · T start/stop timer</div>` },
+
+  { id:'tech', lvl:'Level 0 · Tech or not tech?', html:() => {
+    const jobs = [['F1 race engineer','Makes a car faster every weekend','Lives on telemetry data and simulations.'],['Game designer','Creates the worlds you play in','Designs and ships software people play.'],['Doctor','Reads scans to find illness early','AI helps spot what the eye can miss.'],['Farmer','Grows food for thousands of people','Drones and soil sensors guide every field.'],['Film VFX artist','Makes the impossible look real','3D software, simulation and code.'],['Football analyst','Helps a team win the next match','Tracks every player with data.']];
+    return `<div class="eyebrow">Level 0</div><h1>Tech or not tech?</h1><div class="sub">Shout it out. Click a card to reveal.</div>
+    <div class="grid g3">${jobs.map(([t,d,a])=>`<div class="flip"><div class="in"><div class="face front"><span class="q">?</span><h3 style="color:var(--navy)">${t}</h3><p style="color:var(--slate)">${d}</p></div><div class="face back" style="background:var(--teal);color:var(--navy)"><span class="badge" style="background:var(--navy);color:#fff;align-self:flex-start">TECH</span><h3 style="margin-top:10px">${t}</h3><p style="color:var(--navy)">${a}</p></div></div></div>`).join('')}</div>`; },
+    after: flipAll },
+
+  { id:'story', lvl:'Who’s talking', html:() => `
+    <div class="eyebrow">Who’s talking</div><h1>My quest so far</h1><div class="sub">${esc(CONFIG.presenter)} · ${esc(CONFIG.role)}</div>
+    <div class="grid g4">${CONFIG.story.map(([l,t],i)=>`<div class="card ${i===3?'':'light'}" style="${i===3?'background:#2F5E3D;border-color:var(--green)':''};min-height:220px"><div class="eyebrow" style="color:${i===3?'var(--teal-soft)':'var(--bridge)'}">${esc(l)}</div><h3 style="margin-top:14px;font-size:1.5rem;color:${i===3?'#fff':'var(--navy)'}">${esc(t)}</h3></div>`).join('')}</div>` },
+
+  { id:'classes', lvl:'Level 1 · Choose your class', html:() => `
+    <div class="eyebrow">Level 1 · Your class</div><h1>Meet the four classes</h1><div class="sub">Take the quiz on your phone, then stand with your class.</div>
+    <div class="grid g4">${KEYS.map(k=>{const c=CLASSES[k];return `<div class="classcard c-${k}"><div class="top">${chip(k,58)}<div><h3>${esc(c.name)}</h3><small>${esc(c.track)}</small></div></div><div class="bd"><div>${esc(c.day)}</div><div><div class="lab">Starter quest</div><b>${esc(c.quest)}</b></div><div><div class="lab">Gear</div>${esc(c.gear)}</div></div></div>`}).join('')}</div>`, timer:90 },
+
+  { id:'stats', lvl:'Level 2 · Base stats', html:() => `
+    <div class="eyebrow">Level 2 · Base stats</div><h1>Every class needs these first</h1><div class="sub">Learn these well and switching class later is easy.</div>
+    <div class="grid g3">${[['Python','One language, learned properly. Not five half-learned ones.'],['Git','Save points for your code. Mess up? Load the last save.'],['Problem solving','Break a big problem into small steps you can test.'],['English & docs','The best tutorials and documentation are in English.'],['AI as a tutor','Quiz me. Check my solution. Explain my error.'],['Math basics','Logic and algebra. Deeper math only for some classes.']].map(([t,d],i)=>`<div class="card light"><h3 style="color:var(--navy)">${i+1} · ${t}</h3><p>${d}</p></div>`).join('')}</div>` },
+
+  { id:'bug', lvl:'Level 2 · Bug hunt', timer:40, html:() => `
+    <div class="eyebrow">Level 2 · Mini-game</div><h1>Bug hunt</h1><div class="sub">It prints <b>Average: 2.25</b>. The real average is 10.75. First class to shout the line and the fix wins 2 points.</div>
+    <div class="code" id="code">${['scores = [12, 7, 15, 9]','total = 0','for s in scores:','    total = s','print("Average:", total / len(scores))'].map((l,i)=>`<div class="ln" data-i="${i}"><span>${i+1}</span><span>${esc(l).replace(/ /g,'&nbsp;')}</span></div>`).join('')}</div>
+    <div class="click-hint">Click line 4 to reveal the fix.</div>`,
+    after(st){ st.querySelectorAll('.ln').forEach(l => l.onclick = () => { if (l.dataset.i !== '3' || l.classList.contains('bug')) return; l.classList.add('bug'); l.insertAdjacentHTML('afterend', '<span class="fix">✓ total += s &nbsp;→ Average: 10.75</span>'); }); } },
+
+  { id:'xp', lvl:'Level 3 · Earn XP', html:() => `
+    <div class="eyebrow">Level 3 · Earn XP</div><h1>Projects are your proof</h1><div class="sub">Click to climb the ladder.</div>
+    <div class="ladder" id="ladder">${[['Tutorial','Follow along','+10 XP','#9DD8DD',35],['Remix','Change it, add a feature','+25 XP','#54B4BC',55],['Your idea','Build it from scratch','+50 XP','#2E6E85',75],['Real users','Someone actually uses it','+100 XP','#E6B959',95]].map(([t,d,x,c,h],i)=>`<div class="rung ${i?'off':''}" style="background:${c};height:${h}%;${i===2?'color:#fff':''}"><span class="xp">${x}</span><b>${t}</b><span>${d}</span></div>`).join('')}</div>`,
+    after(st){ const r = [...st.querySelectorAll('.rung')]; st.querySelector('#ladder').onclick = () => { const n = r.find(x => x.classList.contains('off')); if (n) n.classList.remove('off'); }; } },
+
+  { id:'hire', lvl:'Level 3 · Hire or pass?', timer:30, html:() => `
+    <div class="eyebrow">Level 3 · Mini-game</div><h1>Hire or pass?</h1><div class="sub">You’re the boss. One internship. Vote with your card, then click the hire.</div>
+    <div class="grid g3">${[['A','The certificate collector',['9 online course certificates','No code on GitHub','“Passionate about tech”']],['B','The tutorial twin',['14 repositories','All copied from tutorials','No READMEs, no screenshots']],['C','The one real thing',['2 repositories','An app their school club actually uses','README, screenshots, bugs fixed']]].map(([k,t,l])=>`<div class="cand c-${k}" data-k="${k}"><div style="display:flex;gap:14px;align-items:center"><div class="av" style="background:var(--c);color:var(--tc)">${k}</div><h3 style="color:var(--navy)">${t}</h3></div><ul>${l.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>`,
+    after(st){ st.querySelectorAll('.cand').forEach(c => c.onclick = () => st.querySelectorAll('.cand').forEach(x => { x.classList.toggle('win', x.dataset.k==='C'); x.classList.toggle('lose', x.dataset.k!=='C'); })); } },
+
+  { id:'guild', lvl:'Level 4 · Join a guild', html:() => `
+    <div class="eyebrow">Level 4 · Join a guild</div><h1>Find your people</h1><div class="sub">Which class fits each guild? Click to reveal. One point per correct match.</div>
+    <div class="grid" style="gap:12px">${GUILDS.map(([t,d,ks],i)=>`<div class="guild" data-i="${i}"><span class="n">${i+1}</span><b>${t}</b><small>${d}</small><span class="ans"></span></div>`).join('')}</div>`,
+    after(st){ st.querySelectorAll('.guild').forEach(g => g.onclick = () => { const a = g.querySelector('.ans'); if (a.innerHTML) return; a.innerHTML = GUILDS[+g.dataset.i][2].map(k => chip(k,36)).join(''); }); } },
+
+  { id:'myth', lvl:'Level 5 · Boss level', html:() => `
+    <div class="eyebrow">Level 5 · Boss level</div><h1>Myth or fact?</h1><div class="sub">Green card = FACT. Gold card = MYTH. Click to reveal.</div>
+    <div class="grid g2">${[['You need a degree before anyone will hire you.','MYTH','A degree opens some doors. Many companies hire on skills and proof.'],['You have to be a math genius to work in tech.','MYTH','Most work needs logic and basic algebra. Heavy math is for some AI and graphics roles.'],['Companies look at what you’ve built, not just your grades.','FACT','A real project is often the first thing people check.'],['You’re too young to start building real things.','MYTH','Teenagers win world competitions and ship apps. Starting early is an advantage.']].map(([t,a,w])=>`<div class="flip myth" style="min-height:170px"><div class="in"><div class="face front"><span class="q">?</span><h3>“${t}”</h3></div><div class="face back mf-${a.toLowerCase()}"><b>${a}</b><p>${w}</p></div></div></div>`).join('')}</div>`,
+    after: flipAll },
+
+  { id:'jobs', lvl:'Level 5 · First jobs', html:() => `
+    <div class="eyebrow">Level 5 · First jobs</div><h1>How people actually get in</h1>
+    <div class="grid g2" style="margin-top:14px;align-items:start">
+      <div class="grid" style="gap:12px">${[['Internships','Summer and part-time roles, mostly for university students.'],['Freelancing','Small paid gigs, like a website for a local business.'],['Open source & volunteering','Build for a club or a charity. Fix a bug in a tool you use.'],['Competitions','Winners and finalists get noticed by recruiters.']].map(([t,d],i)=>`<div class="card" style="padding:16px 20px"><h3 style="font-size:1.15rem">${i+1} · ${t}</h3><p>${d}</p></div>`).join('')}</div>
+      <div class="card light" style="padding:26px"><div class="eyebrow" style="color:var(--bridge)">What I look for when I hire</div>
+        <div class="grid" style="gap:16px;margin-top:16px">${CONFIG.hireLooks.map(([t,d])=>`<div><h3 style="color:var(--navy);font-size:1.2rem;margin-bottom:2px">✓ ${esc(t)}</h3><p>${esc(d)}</p></div>`).join('')}</div></div></div>` },
+
+  { id:'quest', lvl:'Level 6 · Quest log', timer:300, html:() => `
+    <div class="eyebrow">Level 6 · Quest log</div><h1>Write your 6-month quest</h1><div class="sub">On your phone: tap <b>Build my 6-month quest</b>. Then swap with your neighbour: is it one project, not five?</div>
+    <div class="grid g4">${[['1','Pick your class','1 min'],['2','Choose two base stats','1 min'],['3','Pick one project','2 min'],['4','Name a guild + hours a week','1 min']].map(([n,t,m])=>`<div class="card"><div class="lv" style="padding:0;border:0;background:none"><div class="n">${n}</div></div><h3 style="margin-top:12px">${t}</h3><span class="badge" style="background:var(--deep);color:var(--teal-soft)">${m}</span></div>`).join('')}</div>
+    <div class="join" style="grid-template-columns:auto 1fr;margin-top:26px"><div class="qr" id="qr2" style="width:min(24vh,200px)"></div><div class="url">${esc(playerUrl())}</div></div>`,
+    after(){ try { const q = qrcode(0,'M'); q.addData(playerUrl()); q.make(); $('#qr2').innerHTML = q.createSvgTag({ cellSize:6, margin:0, scalable:true }); } catch(e){} } },
+
+  { id:'final', lvl:'Game over', html:() => {
+    const sc = Host.scores, max = Math.max(...KEYS.map(k=>sc[k]));
+    return `<div class="eyebrow">Game over</div><h1>Your quest starts this week</h1><div class="sub">Pick a class · Build proof · Join a guild. Prize: ${esc(CONFIG.prize)}.</div>
+    <div class="grid g4 final">${KEYS.map(k=>`<div class="classcard c-${k} ${max>0&&sc[k]===max?'winner':''}"><div class="top" style="justify-content:center">${chip(k,58)}<h3>${esc(CLASSES[k].name)}</h3></div><div class="bd"><div class="pts">${sc[k]}</div>${max>0&&sc[k]===max?'<div class="crown">WINNERS</div>':'<div class="crown" style="opacity:0">.</div>'}</div></div>`).join('')}</div>
+    <div class="click-hint">Click the scores to celebrate.</div>`; },
+    after(st){ st.querySelector('.final').onclick = confetti; } },
+];
+
+/* ---------- confetti ---------- */
+function confetti(){
+  const cv = $('#confetti'), ctx = cv.getContext('2d'); cv.width = innerWidth; cv.height = innerHeight;
+  const cols = ['#E6B959','#6365E0','#54B4BC','#6DB56A','#fff'];
+  const P = Array.from({length:180}, () => ({ x:Math.random()*cv.width, y:-20-Math.random()*cv.height*.5, vx:(Math.random()-.5)*4, vy:2+Math.random()*4, s:6+Math.random()*8, r:Math.random()*6, c:cols[Math.random()*5|0] }));
+  let t = 0; (function f(){ ctx.clearRect(0,0,cv.width,cv.height);
+    P.forEach(p => { p.x+=p.vx; p.y+=p.vy; p.r+=.1; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.fillStyle=p.c; ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); ctx.restore(); });
+    if (++t < 240) requestAnimationFrame(f); else ctx.clearRect(0,0,cv.width,cv.height); })();
+}
+
+route();
+</script>
+</body>
+</html>
