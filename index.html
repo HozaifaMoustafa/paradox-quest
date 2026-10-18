@@ -205,7 +205,75 @@ html.is-host .card,html.is-host .flip .face{padding:1.3rem 1.4rem}
 html.is-host .card p,html.is-host .flip p{font-size:1.02rem}
 html.is-host .guild{padding:1rem 1.2rem}
 html.is-host .qr{width:min(42vh,420px)}
-@media (max-width:900px){.host .stage{padding:10px 18px}.levels{grid-template-columns:repeat(4,1fr)}.g3,.g4{grid-template-columns:repeat(2,1fr)}.h-top{padding:12px 16px;flex-wrap:wrap}.join{grid-template-columns:1fr}}
+/* ---------- responsive: tablets & phones ---------- */
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh}
+button,.opt,.tag,.navbtn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.player{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));padding-bottom:max(40px,env(safe-area-inset-bottom));min-height:100dvh}
+.field input[type=text],.field textarea{font-size:16px}
+@media (max-width:900px){
+  .host{grid-template-columns:minmax(0,1fr);width:100%;overflow-x:hidden;height:auto;min-height:100vh;min-height:100dvh;grid-template-rows:auto 1fr auto}
+  html.is-host{font-size:16px}
+  .host .stage{padding:8px 16px 20px;overflow:visible}
+  .stage h1{font-size:clamp(1.6rem,6vw,2.2rem)}
+  .stage .sub{margin-bottom:16px}
+  .levels{grid-template-columns:repeat(2,1fr)}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .grid{gap:12px}
+  .h-top{padding:12px 16px;flex-wrap:wrap;gap:10px 14px}
+  .stage,.h-top,.h-bot{min-width:0;max-width:100%}
+  .url{font-size:.85rem}
+  .h-top .lvl{flex:1 1 100%;order:3;font-size:.9rem}
+  .scores{flex:1 1 100%;order:4;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .score{padding:5px;gap:6px;justify-content:space-between}
+  .score .chip{width:30px;height:30px;font-size:.72rem}
+  .score b{font-size:1.1rem;min-width:1.4ch}
+  .score .pm button{width:26px;height:22px}
+  .join{grid-template-columns:1fr!important;gap:18px;justify-items:center;text-align:center}
+  .qr,html.is-host .qr{width:min(70vw,300px)!important}
+  .h-bot{position:sticky;bottom:0;z-index:5;flex-wrap:wrap;justify-content:center;gap:10px;padding:10px 16px max(12px,env(safe-area-inset-bottom));background:linear-gradient(0deg,var(--navy2) 70%,transparent)}
+  .navbtn{width:52px;height:52px}
+  .dots{flex:1 1 100%;order:-1;flex-wrap:wrap}
+  .ladder{flex-direction:column;align-items:stretch;height:auto}
+  .rung{height:auto!important;min-height:78px}
+  .rung.off{transform:none}
+  .guild{flex-wrap:wrap;gap:10px}
+  .guild b{flex:1 1 calc(100% - 60px)}
+  .guild small{flex:1 1 100%}
+  .code{padding:16px 12px;line-height:1.9;overflow-x:auto}
+  .code .ln{gap:14px;white-space:pre}
+  .vote div{font-size:1.2rem;padding:12px}
+  .flip{min-height:150px}
+  html.is-host .flip{min-height:9.5rem}
+  .final .pts{font-size:2.6rem}
+  .final .winner{transform:none}
+  .cand.win{transform:none}
+}
+@media (max-width:480px){
+  .landing{gap:20px;padding:24px 16px}
+  .landing .plate{padding:20px 22px 16px}
+  .landing .plate img.icon{height:100px}
+  .landing .plate img.wm{height:34px}
+  .landing p{font-size:1rem}
+  .choices{flex-direction:column;align-items:stretch;width:100%;max-width:340px}
+  .btn{padding:15px 22px}
+  .player h2{font-size:1.4rem}
+  .opt{padding:14px;gap:12px}
+  .result .head{padding:18px;gap:12px}
+  .result .head .chip{width:58px;height:58px;font-size:1.3rem}
+  .result .head h3{font-size:1.5rem}
+  .result .body{padding:16px 18px 20px}
+  .classpick{gap:6px}
+  .classpick button{font-size:.7rem;padding:9px 2px}
+  .levels{grid-template-columns:1fr 1fr;gap:8px}
+  .lv{padding:12px 10px}
+  .card{padding:16px}
+  .h-bot .reset{flex:1 1 100%;justify-content:center;order:5}
+}
+@media (max-height:520px) and (orientation:landscape){
+  .player{max-width:640px}
+  .landing{min-height:100dvh;padding:16px}
+}
 </style>
 </head>
 <body class="bg-deep">
@@ -525,6 +593,9 @@ const Host = {
     document.querySelectorAll('.score').forEach(el => el.querySelectorAll('button').forEach(b => b.onclick = () => this.add(el.dataset.k, +b.dataset.d)));
     $('#prev').onclick = () => this.nav(-1); $('#next').onclick = () => this.nav(1);
     $('#reset').onclick = () => { if (confirm('Reset the game? All class scores go back to 0 and you return to the first screen.')) { this.scores = {A:0,B:0,C:0,D:0}; store.set('scores', this.scores); this.i = 0; store.set('slide', 0); this.render(); } };
+    { const h = document.querySelector('.host'); let x0 = null, y0 = 0;
+      h.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+      h.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 2 && !e.target.closest('.code')) this.nav(dx < 0 ? 1 : -1); }, {passive:true}); }
     if (sl.timer) setupTimer(sl.timer);
     if (sl.after) sl.after($('#stage'), this);
   },
